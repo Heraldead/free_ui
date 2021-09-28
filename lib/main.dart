@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'widgets/wiget_first.dart';
+import 'widgets/widgets.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,7 +9,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+
+      // Navigator.of(context).pushReplacementNamed('/second');
+      routes: {
+        '/': (context) => LoginPage(),
+        '/second': (context) => Second(),
+        '/third': (context) => PointFile(),
+      },
+      initialRoute: '/',
     );
   }
 }
@@ -27,16 +36,18 @@ class _LoginPageState extends State {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: Column(
-                children: <Widget>[
-                  _getHeader(),
-                  _getInputs(),
-                  _getSignIn(),
-                  SizedBox(
-                    height: 70,
-                  )
-                  // _getBottomRow(),
-                ],
+              child: Expanded(
+                child: Column(
+                  children: <Widget>[
+                    _getHeader(),
+                    Verify(),
+                    _getSignIn(),
+                    SizedBox(
+                      height: 70,
+                    )
+                    // _getBottomRow(),
+                  ],
+                ),
               ),
             )
           ],
@@ -59,41 +70,66 @@ _getHeader() {
   );
 }
 
-_getInputs() {
-  return Expanded(
-    flex: 4,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Логин',
-            hintStyle: TextStyle(color: Colors.white),
-            enabledBorder: new UnderlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.white, width: 1.0, style: BorderStyle.solid),
+class Verify extends StatefulWidget {
+  Verify({Key key}) : super(key: key);
+
+  @override
+  _VerifyState createState() => _VerifyState();
+}
+
+class _VerifyState extends State<Verify> {
+  TextEditingController name = TextEditingController();
+  TextEditingController surname = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          TextField(
+            controller: name,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.mail),
+
+              // fillColor: ,,
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              labelText: 'Логин',
+              labelStyle: TextStyle(color: Colors.grey),
+              focusColor: Colors.red,
+              fillColor: Colors.red,
+
+              // fillColor: ,
             ),
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Пароль',
-            hintStyle: TextStyle(color: Colors.white),
-            enabledBorder: new UnderlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.white, width: 1.0, style: BorderStyle.solid),
+          SizedBox(
+            height: 15,
+          ),
+          TextField(
+            controller: surname,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.lock),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: Colors.red,
+                ),
+              ),
+              labelText: 'Пароль',
+              labelStyle: TextStyle(color: Colors.grey),
             ),
+            style: TextStyle(color: Colors.white),
           ),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-      ],
-    ),
-  );
+          SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 _getSignIn() {
@@ -121,7 +157,10 @@ class Button extends StatefulWidget {
 }
 
 class _ButtonState extends State<Button> {
-  second_widget() {}
+  second_widget() {
+    final name = Verify();
+    return Navigator.of(context).pushReplacementNamed('/second');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +172,7 @@ class _ButtonState extends State<Button> {
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(1000),
                     side: BorderSide(color: Colors.blue)))),
         child: Icon(
           Icons.arrow_forward_ios_rounded,
@@ -181,16 +220,16 @@ class BackgroundSignIn extends CustomPainter {
     paint.color = Colors.grey[900];
     canvas.drawPath(mainBackground, paint);
 
-    // Blue
+    // RED
     Path blueWave = Path();
     blueWave.lineTo(sw, 0);
     blueWave.lineTo(sw, sh * 0.5);
     blueWave.quadraticBezierTo(sw * 0.5, sh * 0.45, sw * 0.2, 0);
     blueWave.close();
-    paint.color = Colors.red;
+    paint.color = Colors.blue;
     canvas.drawPath(blueWave, paint);
 
-    // Grey
+    // BLUE
     Path greyWave = Path();
     greyWave.lineTo(sw, 0);
     greyWave.lineTo(sw, sh * 0.1);
@@ -198,10 +237,10 @@ class BackgroundSignIn extends CustomPainter {
         sw * 0.95, sh * 0.15, sw * 0.65, sh * 0.15, sw * 0.6, sh * 0.38);
     greyWave.cubicTo(sw * 0.52, sh * 0.52, sw * 0.05, sh * 0.45, 0, sh * 0.4);
     greyWave.close();
-    paint.color = Colors.blue;
+    paint.color = Colors.greenAccent[400];
     canvas.drawPath(greyWave, paint);
 
-    // Yellow
+    // WHITE
     Path yellowWave = Path();
     yellowWave.lineTo(sw * 0.7, 0);
     yellowWave.cubicTo(
