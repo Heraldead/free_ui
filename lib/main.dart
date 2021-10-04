@@ -89,6 +89,8 @@ class _VerifyState extends State<Verify> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           TextField(
+            keyboardAppearance: Brightness.dark,
+            keyboardType: TextInputType.emailAddress,
             controller: name,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.mail),
@@ -109,6 +111,14 @@ class _VerifyState extends State<Verify> {
             height: 15,
           ),
           TextField(
+            toolbarOptions: ToolbarOptions(
+              copy: false,
+              paste: false,
+              cut: false,
+            ),
+            obscuringCharacter: '*',
+            obscureText: true,
+            keyboardAppearance: Brightness.dark,
             controller: surname,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.lock),
@@ -121,7 +131,9 @@ class _VerifyState extends State<Verify> {
               labelText: 'Пароль',
               labelStyle: TextStyle(color: Colors.grey),
             ),
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
           SizedBox(
             height: 15,
